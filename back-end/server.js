@@ -1,7 +1,8 @@
-// server.js
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const authRoutes = require('./router/auth');
+const todoRoutes = require('./router/todo');
 require('dotenv').config();
 
 const app = express();
@@ -11,7 +12,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Test route
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/todos', todoRoutes);
+
 app.get('/', (req, res) => {
   res.send('Server is running...');
 });
@@ -28,7 +32,3 @@ mongoose
   .catch((error) => {
     console.error('❌ MongoDB connection failed:', error.message);
   });
-
-  const authRoutes = require('./router/auth');
-
-app.use('/api/auth', authRoutes);
